@@ -15,7 +15,6 @@ class Vector:
 		self.x = x
 		self.y = y
 		self.type = type
-	order = 0
 
 class NumberdMap:
 	def readMap(self,fileName):
