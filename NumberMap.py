@@ -1,6 +1,9 @@
 from orderByDistance import *
 from tkinter import *
 
+"""
+Take saved map and order cones by chosen function
+"""
 class NumberdMap:
 	def readMap(self,fileName):
 		toRead=open(fileName, 'r')
@@ -30,6 +33,8 @@ class NumberdMap:
 
 	def __init__(self,fileName):
 		carPos, carDir, bluePoints, yellowPoints = self.readMap(fileName)
+		
+		#change function here
 		self.carPos, self.carDir, self.bluePoints, self.yellowPoints = orderByDis(bluePoints, yellowPoints,carPos,carDir)
 			
 	def printMap(self):
@@ -52,5 +57,6 @@ class NumberdMap:
 
 		root.mainloop()
 
+#change the name of the map to be loaded here
 np = NumberdMap("Map1.txt")
 np.printMap()

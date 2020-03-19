@@ -1,6 +1,15 @@
 from tkinter import *
 import math
 
+"""
+Left click to create yellow cones
+Right click to create blue cones
+First scroll click creates car
+Second scroll click creates hist direction
+The map won't be saved if car and direction wern't created
+"""
+
+
 class createMap:
 	def __init__(self,fileName):
 		self.fileName = fileName
@@ -35,18 +44,19 @@ class createMap:
 			self.carDir.append(round((y - self.saveY)/norm))
 			self.my_canvas.create_line(self.saveX,self.saveY,self.saveX+self.carDir[0],self.saveY+self.carDir[1],fill="red")
 
-	def close(self):	
-		toWrite=open(self.fileName, 'w')
-		for x in self.carPoint:
-			toWrite.write(str(x) + "\n")
-		for x in self.carDir:
-			toWrite.write(str(x) + "\n")
-		for point in self.bluePoints:
-			toWrite.write(str(point[0]) + " " + str(point[1]) + "\n")
-		toWrite.write("break\n")
-		for point in self.yellowPoints:
-			toWrite.write(str(point[0]) + " " + str(point[1]) + "\n")
-		toWrite.close()
+	def close(self):
+		if self.ncar == 2:
+			toWrite=open(self.fileName, 'w')
+			for x in self.carPoint:
+				toWrite.write(str(x) + "\n")
+			for x in self.carDir:
+				toWrite.write(str(x) + "\n")
+			for point in self.bluePoints:
+				toWrite.write(str(point[0]) + " " + str(point[1]) + "\n")
+			toWrite.write("break\n")
+			for point in self.yellowPoints:
+				toWrite.write(str(point[0]) + " " + str(point[1]) + "\n")
+			toWrite.close()
 		
 		self.root.destroy()
 		
@@ -70,5 +80,6 @@ class createMap:
 		self.closebutton.pack()
 		self.root.mainloop()
 		
+#change name of the the map to be saved here
 cp = createMap("Map1.txt")
 cp.create()

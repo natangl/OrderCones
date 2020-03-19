@@ -1,5 +1,9 @@
 import math
 
+"""
+Function takes orders cones by distance to car
+"""
+
 def takeThird(elem):
 	return elem[2]
 
