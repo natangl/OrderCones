@@ -4,54 +4,68 @@ from tkinter import *
 """
 Take saved map and order cones by chosen function
 """
+
+BLUE = 0
+YELLOW = 1
+CAR = 2
+SPEED = 3
+
+class Vector:
+	def __init__(self, x, y, type):
+		self.x = x
+		self.y = y
+		self.type = type
+	order = 0
+
 class NumberdMap:
 	def readMap(self,fileName):
 		toRead=open(fileName, 'r')
 
-		carPos = [int(toRead.readline()),int(toRead.readline())]
-		carDir = [int(toRead.readline()),int(toRead.readline())]
+		carPos = Vector(int(toRead.readline()),int(toRead.readline()),CAR)
+		carDir = Vector(int(toRead.readline()),int(toRead.readline()),SPEED)
 
-		bluePoints = []
+		cones = []
 		pointStr = toRead.readline()
 		while pointStr != "break\n":
 			a = pointStr.split(" ")
-			newPoint = [int(a[0]),int(a[1])]
-			bluePoints.append(newPoint)
+			newCone = Vector(int(a[0]),int(a[1]), BLUE)
+			cones.append(newCone)
 			pointStr = toRead.readline()
 			
-		yellowPoints = []
 		pointStr = toRead.readline()
 		while pointStr != '':
 			a = pointStr.split(" ")
-			newPoint = [int(a[0]),int(a[1])]
-			yellowPoints.append(newPoint)
+			newCone = Vector(int(a[0]),int(a[1]), YELLOW)
+			cones.append(newCone)
 			pointStr = toRead.readline()
 
 		toRead.close()
-		return carPos, carDir, bluePoints, yellowPoints
+		return carPos, carDir, cones
 		
 
 	def __init__(self,fileName):
-		carPos, carDir, bluePoints, yellowPoints = self.readMap(fileName)
+		self.carPos, self.carDir, cones = self.readMap(fileName)
 		
 		#change function here
-		self.carPos, self.carDir, self.bluePoints, self.yellowPoints = orderByDis(bluePoints, yellowPoints,carPos,carDir)
+		self.cones = orderByDis(cones,self.carPos,self.carDir)
 			
 	def printMap(self):
 		root = Tk()
 
 		my_canvas = Canvas(root, width=500, height=500)
 
-		for point in self.bluePoints:
-			my_canvas.create_oval(point[0]-3,point[1]-3,point[0]+3,point[1]+3,fill="blue")
-			label = Label(master = root,text=str(point[2]))
-			label.place(x=point[0] - 5,y= point[1] - 30)
-		for point in self.yellowPoints:
-			my_canvas.create_oval(point[0]-3,point[1]-3,point[0]+3,point[1]+3,fill="yellow")
-			label = Label(master = root,text=str(point[2]))
-			label.place(x=point[0] - 5,y= point[1] - 30)
-		my_canvas.create_oval(self.carPos[0]-3,self.carPos[1]-3,self.carPos[0]+3,self.carPos[1]+3,fill="purple")
-		my_canvas.create_line(self.carPos[0],self.carPos[1],self.carPos[0]+self.carDir[0],self.carPos[1]+self.carDir[1],fill="red")
+		for cone in self.cones:
+			if cone.type == BLUE:
+				my_canvas.create_oval(cone.x-3,cone.y-3,cone.x+3,cone.y+3,fill="blue")
+				label = Label(master = root,text=str(cone.order))
+				label.place(x=cone.x - 5,y= cone.y - 30)
+			if cone.type == YELLOW:
+				my_canvas.create_oval(cone.x-3,cone.y-3,cone.x+3,cone.y+3,fill="yellow")
+				label = Label(master = root,text=str(cone.order))
+				label.place(x=cone.x - 5,y= cone.y - 30)
+
+		my_canvas.create_oval(self.carPos.x-3,self.carPos.y-3,self.carPos.x+3,self.carPos.y+3,fill="purple")
+		my_canvas.create_line(self.carPos.x,self.carPos.y,self.carPos.x+self.carDir.x,self.carPos.y+self.carDir.y,fill="red")
 			
 		my_canvas.pack()
 
