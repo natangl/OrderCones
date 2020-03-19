@@ -51,7 +51,7 @@ class NumberdMap:
 	def printMap(self):
 		root = Tk()
 
-		my_canvas = Canvas(root, width=500, height=500)
+		my_canvas = Canvas(root, width=1200, height=600)
 
 		for cone in self.cones:
 			if cone.type == BLUE:

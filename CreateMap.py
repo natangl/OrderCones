@@ -63,7 +63,7 @@ class createMap:
 	def create(self):		
 		self.root = Tk()
 
-		self.my_canvas = Canvas(self.root, width=500, height=500)
+		self.my_canvas = Canvas(self.root, width=1200, height=600)
 		self.ncar = 0
 		self.saveX = 0
 		self.saveY = 0
